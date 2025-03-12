@@ -4,8 +4,22 @@
     "pages/logs/logs"
   ],
   "window": {
-    "navigationBarTextStyle": "black",
-    "navigationStyle": "custom"
+		"navigationBarBackgroundColor":"#27BA9B"
+  },
+  "tabBar": {
+    "color": "#333",
+    "selectedColor": "#fff",
+    "backgroundColor": "#27BA9B",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/logs/logs",
+        "text": "我的"
+      }
+  ]
   },
   "style": "v2",
   "rendererOptions": {
