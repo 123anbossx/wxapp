@@ -15,6 +15,9 @@ Component({
     canIUseNicknameComp: wx.canIUse('input.type.nickname'),
   },
   methods: {
+    onShow(){
+       console.log('页面显示了')
+    },
     // 事件处理函数
     bindViewTap() {
       wx.navigateTo({
