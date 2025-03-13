@@ -1,43 +1,42 @@
 // index.ts
 // 获取应用实例
 const app = getApp<IAppOption>()
-const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
-
 Component({
-  data: {
-    motto: 'Hello World',
-    userInfo: {
-      avatarUrl: defaultAvatarUrl,
-      nickName: '',
-    },
-    hasUserInfo: false,
-    canIUseGetUserProfile: wx.canIUse('getUserProfile'),
-    canIUseNicknameComp: wx.canIUse('input.type.nickname'),
+  data:{
+    userDatas: [] as Array<usertype | undefined>, // 用户数据列表
+  },
+  lifetimes:{
+    attached(){
+      app.registerObserver(this.updateUserList.bind(this));
+      this.getData()
+    }
   },
   methods: {
-    onShow(){
-       console.log('页面显示了')
+    // onShow(){
+    //    console.log('页面显示出来了')
+    // },
+    updateUserList(userId:string){
+        this.setData({
+          [`userDatas[${0}]`]:app.globalData.userMap?.get(userId)
+        })
     },
+    changename(){
+        app.changeuserInfo()
+    },
+   // 获取数据
+   getData(){
+       let allUsers:Array<usertype> = []
+       app.globalData.userMap?.forEach((value:usertype)=>{
+          allUsers.push(value)
+       })
+       this.setData({
+          userDatas:allUsers
+       })
+   },
     // 事件处理函数
     bindViewTap() {
       wx.navigateTo({
         url: '../logs/logs',
-      })
-    },
-    onChooseAvatar(e: any) {
-      const { avatarUrl } = e.detail
-      const { nickName } = this.data.userInfo
-      this.setData({
-        "userInfo.avatarUrl": avatarUrl,
-        hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
-      })
-    },
-    onInputChange(e: any) {
-      const nickName = e.detail.value
-      const { avatarUrl } = this.data.userInfo
-      this.setData({
-        "userInfo.nickName": nickName,
-        hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
       })
     },
     getUserProfile() {
